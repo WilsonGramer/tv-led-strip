@@ -1,0 +1,10 @@
+[Unit]
+Description=TVLEDStrip
+After=network.target
+
+[Service]
+ExecStart=/home/pi/go/bin/tv-led-strip
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
