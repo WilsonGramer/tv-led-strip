@@ -50,7 +50,7 @@ func main() {
 			log.Println("turning on")
 
 			var err error
-			cam, err = camera.New(camera.Options{Width: prominentcolor.DefaultSize, Height: prominentcolor.DefaultSize})
+			cam, err = camera.New(camera.Options{Width: 640, Height: 480})
 			if err != nil {
 				log.Panic(err)
 			}
