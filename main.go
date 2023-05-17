@@ -26,7 +26,11 @@ const (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		log.Fatal("Error loading .env file")
+		if err, ok := err.(*os.PathError); ok {
+			log.Printf(".env not present: %v\n", err)
+		} else {
+			log.Fatal("error loading .env file")
+		}
 	}
 
 	accessory := accessory.NewSwitch(accessory.Info{

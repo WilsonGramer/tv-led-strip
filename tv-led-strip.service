@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 ExecStart=/home/pi/go/bin/tv-led-strip
+EnvironmentFile=/usr/src/tv-led-strip/.env
 Restart=always
 
 [Install]
