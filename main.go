@@ -33,12 +33,16 @@ func main() {
 		}
 	}
 
-	accessory := accessory.NewSwitch(accessory.Info{
+	info := accessory.Info{
 		Name:         os.Getenv("ACCESSORY_NAME"),
 		Manufacturer: os.Getenv("ACCESSORY_MANUFACTURER"),
 		SerialNumber: os.Getenv("ACCESSORY_SERIAL_NUMBER"),
 		Model:        os.Getenv("ACCESSORY_MODEL"),
-	})
+	}
+
+	log.Printf("accessory info: %v\n", info)
+
+	accessory := accessory.NewSwitch(info)
 
 	var cam *camera.Camera
 	accessory.Switch.On.OnValueRemoteUpdate(func(on bool) {
@@ -96,7 +100,10 @@ func main() {
 		}
 	})
 
-	fs := hap.NewFsStore("~/.config/tv-led-strip")
+	storePath := fmt.Sprintf("%s/.config/tv-led-strip", os.Getenv("HOME"))
+	log.Printf("fs store path: %s", storePath)
+
+	fs := hap.NewFsStore(storePath)
 
 	server, err := hap.NewServer(fs, accessory.A)
 	if err != nil {
