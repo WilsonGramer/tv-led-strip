@@ -10,17 +10,17 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/EdlinOrg/prominentcolor"
 	"github.com/brutella/hap"
 	"github.com/brutella/hap/accessory"
 	"github.com/gen2brain/cam2ip/camera"
 	"github.com/joho/godotenv"
+	"github.com/nfnt/resize"
 )
 
 const (
 	RED   = 17
-	GREEN = 22
-	BLUE  = 24
+	GREEN = 24
+	BLUE  = 22
 )
 
 func main() {
@@ -58,6 +58,7 @@ func main() {
 			go func() {
 				for {
 					if cam == nil {
+						log.Println("camera is nil, stopping")
 						break
 					}
 
@@ -67,19 +68,33 @@ func main() {
 						continue
 					}
 
-					centroids, err := prominentcolor.KmeansWithAll(1, img, prominentcolor.ArgumentDefault, prominentcolor.DefaultSize, []prominentcolor.ColorBackgroundMask{})
-					if err != nil {
-						log.Printf("failed to get dominant color: %v\n", err)
-						continue
+					img = resize.Resize(80, 80, img, resize.NearestNeighbor)
+
+					totalR := uint32(0)
+					totalG := uint32(0)
+					totalB := uint32(0)
+					for y := 0; y < 80; y++ {
+						for x := 0; x < 80; x++ {
+							r, g, b, _ := img.At(x, y).RGBA()
+							r /= 257
+							g /= 257
+							b /= 257
+
+							totalR += r
+							totalG += g
+							totalB += b
+						}
 					}
 
-					color := centroids[0]
+					r := totalR / (80 * 80)
+					g := totalG / (80 * 80)
+					b := totalB / (80 * 80)
 
-					log.Printf("setting color: rgb(%d, %d, %d)\n", color.Color.R, color.Color.G, color.Color.B)
+					log.Printf("setting color: rgb(%d, %d, %d)\n", r, g, b)
 
-					SetPin(RED, color.Color.R)
-					SetPin(GREEN, color.Color.G)
-					SetPin(BLUE, color.Color.B)
+					SetPin(RED, r)
+					SetPin(GREEN, g)
+					SetPin(BLUE, b)
 				}
 			}()
 		} else {

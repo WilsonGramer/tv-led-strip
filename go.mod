@@ -9,7 +9,12 @@ require (
 )
 
 require (
-	github.com/EdlinOrg/prominentcolor v1.0.0
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/stretchr/testify v1.7.0 // indirect
+	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b // indirect
+)
+
+require (
 	github.com/antonini/golibjpegturbo v0.0.0-20141208033414-c03a2fa1e89a // indirect
 	github.com/brutella/dnssd v1.2.7 // indirect
 	github.com/disintegration/imaging v1.6.2 // indirect
@@ -17,10 +22,8 @@ require (
 	github.com/gen2brain/go-opencv v0.0.0-20191005190506-bf186fc94f7a // indirect
 	github.com/go-chi/chi v1.5.4 // indirect
 	github.com/korandiz/v4l v1.1.0 // indirect
-	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/miekg/dns v1.1.50 // indirect
-	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646 // indirect
-	github.com/oliamb/cutter v0.2.2 // indirect
+	github.com/nfnt/resize v0.0.0-20180221191011-83c6a9932646
 	github.com/pbnjay/pixfont v0.0.0-20200714042608-33b744692567 // indirect
 	github.com/tadglines/go-pkgs v0.0.0-20210623144937-b983b20f54f9 // indirect
 	github.com/xiam/to v0.0.0-20200126224905-d60d31e03561 // indirect
