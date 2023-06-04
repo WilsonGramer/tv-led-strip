@@ -4,12 +4,14 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"os/exec"
 	"os/signal"
 	"syscall"
 	"time"
 
+	"github.com/PerformLine/go-stockutil/colorutil"
 	"github.com/brutella/hap"
 	"github.com/brutella/hap/accessory"
 	"github.com/gen2brain/cam2ip/camera"
@@ -89,6 +91,14 @@ func main() {
 					r := totalR / (80 * 80)
 					g := totalG / (80 * 80)
 					b := totalB / (80 * 80)
+
+					h, s, l := colorutil.RgbToHsl(float64(r), float64(g), float64(b))
+					s = math.Min(s*2, 1) // Increase saturation
+
+					rf, gf, bf := colorutil.HslToRgb(h, s, l)
+					r = uint32(rf)
+					g = uint32(gf)
+					b = uint32(bf)
 
 					log.Printf("setting color: rgb(%d, %d, %d)\n", r, g, b)
 
