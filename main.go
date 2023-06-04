@@ -14,6 +14,7 @@ import (
 	"github.com/PerformLine/go-stockutil/colorutil"
 	"github.com/brutella/hap"
 	"github.com/brutella/hap/accessory"
+	haplog "github.com/brutella/hap/log"
 	"github.com/gen2brain/cam2ip/camera"
 	"github.com/joho/godotenv"
 	"github.com/nfnt/resize"
@@ -26,6 +27,9 @@ const (
 )
 
 func main() {
+	haplog.Info.Enable()
+	haplog.Debug.Enable()
+
 	err := godotenv.Load()
 	if err != nil {
 		if err, ok := err.(*os.PathError); ok {
@@ -100,8 +104,6 @@ func main() {
 					g = uint32(gf)
 					b = uint32(bf)
 
-					log.Printf("setting color: rgb(%d, %d, %d)\n", r, g, b)
-
 					SetPin(RED, r)
 					SetPin(GREEN, g)
 					SetPin(BLUE, b)
@@ -125,10 +127,7 @@ func main() {
 		}
 	})
 
-	storePath := fmt.Sprintf("%s/.config/tv-led-strip", os.Getenv("HOME"))
-	log.Printf("fs store path: %s", storePath)
-
-	fs := hap.NewFsStore(storePath)
+	fs := hap.NewFsStore("/home/pi/.config/tv-led-strip")
 
 	server, err := hap.NewServer(fs, accessory.A)
 	if err != nil {
